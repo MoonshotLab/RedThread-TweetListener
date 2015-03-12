@@ -29,9 +29,18 @@ twitter.stream.on('tweet', function(tweet){
 });
 
 
-// whenever a new event come in, add it to the original tweet
-twitter.stream.on('user_event', function(e){
-  db.addEventToTweet(e.target_object.id, e.event, {
+// on favorite
+twitter.stream.on('favorite', function(e){
+  db.addEventToTweet(e.target_object.id, 'favorite', {
+    created_at  : e.created_at,
+    user        : abbreviate.user(e.source)
+  }).then(success).fail(error);
+});
+
+
+// on follow
+twitter.stream.on('follow', function(e){
+  db.addFollow({
     created_at  : e.created_at,
     user        : abbreviate.user(e.source)
   }).then(success).fail(error);
