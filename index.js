@@ -12,16 +12,21 @@ var error   = function(message){ console.log(message); };
 // handle new tweets and retweets
 twitter.stream.on('tweet', function(tweet){
 
-  // assume it's a retweet if retweeted_status object is present
   if(tweet.retweeted_status){
+    // it's a retweet if retweeted_status object is present
     db.addEventToTweet(tweet.retweeted_status.id, 'retweet', {
       id    : tweet.id,
       user  : abbreviate.user(tweet.user)
     }).then(success).fail(error);
-  } else
-    db.saveTweet(abbreviate.tweet(tweet)).then(success).fail(error);
+  } else if(tweet.in_reply_to_status_id){
+    // it's a retweet if in_reply_to_status_id is present
+    db.addEventToTweet(tweet.in_reply_to_status_id, 'reply', {
+      id    : tweet.id,
+      text  : tweet.text,
+      user  : abbreviate.user(tweet.user)
+    }).then(success).fail(error);
+  } else db.saveTweet(abbreviate.tweet(tweet)).then(success).fail(error);
 });
-
 
 
 // whenever a new event come in, add it to the original tweet
