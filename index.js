@@ -4,7 +4,7 @@ var abbreviate = require('./lib/abbreviate');
 
 
 // just log out success and errors from the promises
-var success = function(message){ console.log(message); };
+var success = function(message){                       };
 var error   = function(message){ console.log(message); };
 
 
