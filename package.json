@@ -1,10 +1,13 @@
 {
   "name": "RedThread-TweetListener",
   "version": "0.0.1",
-  "description": "",
+  "description": "listen to twitter and save user engagements",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start" : "node index.js"
+  },
+  "engines": {
+    "node": "0.11.x"
   },
   "author": "Joe Longstreet",
   "license": "MIT",
