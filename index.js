@@ -25,6 +25,13 @@ twitter.stream.on('tweet', function(tweet){
       text  : tweet.text,
       user  : abbreviate.user(tweet.user)
     }).then(success).fail(error);
+  } else if(twitter.isMention(tweet)){
+    // it's a mention if the tweet contains the user we track
+    db.addMention({
+      id    : tweet.id,
+      text  : tweet.text,
+      user  : abbreviate.user(tweet.user)
+    }).then(success).fail(error);
   } else db.saveTweet(abbreviate.tweet(tweet)).then(success).fail(error);
 });
 
