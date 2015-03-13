@@ -35,7 +35,18 @@ twitter.stream.on('tweet', function(tweet){
       created_at  : new Date(tweet.created_at).getTime(),
       user        : abbreviate.user(tweet.user)
     }).then(success).fail(error);
-  } else db.saveTweet(abbreviate.tweet(tweet)).then(success).fail(error);
+  } else if(twitter.isUserTweet(tweet)){
+    // if this tweet definitely came from the user we're tracking
+    db.saveTweet(abbreviate.tweet(tweet)).then(success).fail(error);
+  } else {
+    // if the term is present, but they don't use the @ sign
+    db.addReference({
+      id          : tweet.id,
+      text        : tweet.text,
+      created_at  : new Date(tweet.created_at).getTime(),
+      user        : abbreviate.user(tweet.user)
+    }).then(success).fail(error);
+  }
 });
 
 
