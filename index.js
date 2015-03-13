@@ -19,8 +19,9 @@ twitter.stream.on('tweet', function(tweet){
       created_at  : new Date(tweet.created_at).getTime(),
       user        : abbreviate.user(tweet.user)
     }).then(success).fail(error);
-  } else if(tweet.in_reply_to_status_id){
-    // it's a retweet if in_reply_to_status_id is present
+  } else if(tweet.in_reply_to_status_id && !twitter.isUserTweet(tweet)){
+    // it's a retweet if in_reply_to_status_id is present and it's not
+    // our tracked user
     db.addEventToTweet(tweet.in_reply_to_status_id, 'reply', {
       id          : tweet.id,
       text        : tweet.text,
