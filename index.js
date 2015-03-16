@@ -50,7 +50,7 @@ twitter.stream.on('tweet', function(tweet){
     db.saveTweet(abbreviate.tweet(tweet)).then(function(){
       console.log('tweet     :', tweet.text);
     }).fail(error);
-  } else {
+  } else if(tweet.text.match(/wingstop/i)){
     // if the term is present, but they don't use the @ sign
     db.addReference({
       id          : tweet.id,
